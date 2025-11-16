@@ -27,32 +27,32 @@ This is a **professional proposal generation system** that creates high-quality 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                      SOURCE FILES (src/)                         │
+│                      SOURCE FILES (src/)                        │
 ├─────────────────────────────────────────────────────────────────┤
-│ proposal.md          → Main proposal content (Markdown)          │
-│ template.tex         → Custom LaTeX template (styling)           │
-│ diagram.mmd          → Architecture diagram (Mermaid)            │
-│ mermaid-config.json  → Diagram styling configuration             │
-│ diagram.css          → Additional diagram styles                 │
-│ assets/              → Static images (logo, mockup screenshots)  │
-│ mockups/screens.html → UI mockups for screenshot generation      │
+│ proposal.md          → Main proposal content (Markdown)         │
+│ template.tex         → Custom LaTeX template (styling)          │
+│ diagram.mmd          → Architecture diagram (Mermaid)           │
+│ mermaid-config.json  → Diagram styling configuration            │
+│ diagram.css          → Additional diagram styles                │
+│ assets/              → Static images (logo, mockup screenshots) │
+│ mockups/screens.html → UI mockups for screenshot generation     │
 └─────────────────────────────────────────────────────────────────┘
                                     ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│                   BUILD PROCESS (npm run build)                  │
+│                   BUILD PROCESS (npm run build)                 │
 ├─────────────────────────────────────────────────────────────────┤
-│ 1. Clean         → Remove old dist/ folder                       │
-│ 2. Prepare       → Copy assets, convert logo SVG→PNG             │
-│ 3. Generate      → Create diagram PNG with mmdc + Playwright     │
-│ 4. Screenshot    → Capture UI mockups with Playwright            │
-│ 5. PDF           → Pandoc + XeLaTeX in Docker container          │
+│ 1. Clean         → Remove old dist/ folder                      │
+│ 2. Prepare       → Copy assets, convert logo SVG→PNG            │
+│ 3. Generate      → Create diagram PNG with mmdc + Playwright    │
+│ 4. Screenshot    → Capture UI mockups with Playwright           │
+│ 5. PDF           → Pandoc + XeLaTeX in Docker container         │
 └─────────────────────────────────────────────────────────────────┘
                                     ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│                    OUTPUT (dist/)                                │
+│                    OUTPUT (dist/)                               │
 ├─────────────────────────────────────────────────────────────────┤
-│ proposal.pdf     → Final professional PDF document               │
-│ assets/          → Generated images (diagram.png, screenshots)   │
+│ proposal.pdf     → Final professional PDF document              │
+│ assets/          → Generated images (diagram.png, screenshots)  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
