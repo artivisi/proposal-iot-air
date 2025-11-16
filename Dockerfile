@@ -12,8 +12,12 @@ RUN apt-get update && \
     texlive-xetex \
     texlive-latex-recommended \
     texlive-fonts-recommended \
+    texlive-fonts-extra \
     lmodern \
-    librsvg2-bin && \
+    librsvg2-bin \
+    inkscape \
+    fonts-noto-core \
+    fonts-lato && \
     # Bersihkan cache apt untuk mengurangi ukuran image
     rm -rf /var/lib/apt/lists/*
 

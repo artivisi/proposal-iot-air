@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "prepare": "mkdir -p dist/assets && cp -r src/assets/. dist/assets/",
-    "generate:diagram": "npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg",
+    "prepare": "mkdir -p dist/assets && cp -r src/assets/. dist/assets/ && podman run --rm --volume \"$(pwd)/dist/assets:/data\" --entrypoint rsvg-convert endymuhardin/pandoc-latex --format png --width 600 --keep-aspect-ratio --output /data/logo-artivisi.png /data/logo-artivisi.svg",
+    "generate:diagram": "npx mmdc -i src/diagram.mmd -o dist/assets/diagram.png -c src/mermaid-config.json -C src/diagram.css -b transparent -s 3 -w 2400 -H 2000 && npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg -c src/mermaid-config.json -C src/diagram.css",
     "generate:screenshots": "node scripts/capture_screens.js",
     "build:assets": "npm run generate:diagram && npm run generate:screenshots",
-    "build:pdf": "podman run --rm --volume \"$(pwd)/src:/src\" --volume \"$(pwd)/dist:/dist\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex /src/proposal.md -o /dist/proposal.pdf --from markdown --pdf-engine=xelatex -V geometry:\"margin=1in\" --resource-path=/dist",
+    "build:pdf": "podman run --rm --volume \"$(pwd)/src:/src\" --volume \"$(pwd)/dist:/dist\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex --template=/src/template.tex --resource-path=/dist --pdf-engine=xelatex -M title=\"PROPOSAL PENGEMBANGAN APLIKASI MONITORING SENSOR AIR BERBASIS WEB\" -M author.name=\"Endy Muhardin / ArtiVisi Intermedia\" -M author.affiliation=\"IT Consultant\" -M client=\"[Nama Klien/Perusahaan Anda]\" -M date=\"16 November 2025\" -M website=\"https://artivisi.com/\" --toc -o /dist/proposal.pdf /src/proposal.md",
     "build": "npm run clean && npm run prepare && npm run build:assets && npm run build:pdf"
   },
   "keywords": [],

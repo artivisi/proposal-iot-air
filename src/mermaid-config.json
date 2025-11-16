@@ -1,0 +1,17 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontSize": "18px",
+    "fontFamily": "Arial, sans-serif",
+    "primaryTextColor": "#000000",
+    "lineColor": "#333",
+    "fontWeight": "bold"
+  },
+  "flowchart": {
+    "padding": 40,
+    "htmlLabels": true,
+    "curve": "basis",
+    "useMaxWidth": false,
+    "diagramPadding": 20
+  }
+}

@@ -1,0 +1,16 @@
+.cluster-label {
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.cluster {
+  overflow: visible !important;
+}
+
+.edgeLabel {
+  overflow: visible !important;
+}
+
+text {
+  overflow: visible !important;
+}

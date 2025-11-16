@@ -1,24 +1,31 @@
+%%{init: {'theme':'base', 'themeVariables': { 'fontSize':'16px', 'fontFamily':'Arial, sans-serif', 'primaryTextColor':'#000000', 'lineColor':'#333', 'fontWeight':'normal'}}}%%
 graph TD
-    subgraph "Lokasi Sensor"
-        S1[Sensor Air 1];
-        S2[Sensor Air 2];
-        SN[Sensor Air ...];
+    subgraph sensors["&nbsp;&nbsp;&nbsp;IoT SENSOR DEVICES&nbsp;&nbsp;&nbsp;"]
+        S1["SENSOR AIR 1<br/>Water Level pH Turbidity"]
+        S2["SENSOR AIR 2<br/>Water Level pH Turbidity"]
+        SN["SENSOR AIR N<br/>..."]
     end
 
-    subgraph "Infrastruktur Cloud (VPS)"
-        Broker(MQTT Broker - Mosquitto);
-        WebApp(Aplikasi Web - Spring Boot);
-        DB[(Database)];
+    subgraph cloud["&nbsp;&nbsp;&nbsp;CLOUD INFRASTRUCTURE&nbsp;&nbsp;&nbsp;"]
+        Broker["MQTT MESSAGE BROKER<br/>Mosquitto MQTT Server<br/>Port 1883/8883"]
+        WebApp["WEB APPLICATION SERVER<br/>Spring Boot Monolithic App<br/>Server-Side HTML Rendering"]
+        DB["DATABASE SERVER<br/>PostgreSQL Time Series<br/>Data Storage Engine"]
     end
 
-    subgraph "Pengguna"
-        User[User via Browser];
-    end
+    User["WEB BROWSER<br/>Dashboard Access<br/>Desktop & Mobile Browser"]
 
-    S1 -- Data via MQTT --> Broker;
-    S2 -- Data via MQTT --> Broker;
-    SN -- Data via MQTT --> Broker;
+    S1 -.->|MQTT DATA<br/>JSON Format| Broker
+    S2 -.->|MQTT DATA<br/>JSON Format| Broker
+    SN -.->|MQTT DATA<br/>JSON Format| Broker
 
-    Broker -- Langganan Topic --> WebApp;
-    WebApp -- Simpan & Ambil Data --> DB;
-    User -- Akses Laporan --> WebApp;
+    Broker ==>|PUB/SUB<br/>sensor/+/data| WebApp
+    WebApp ==>|R/W SQL<br/>Queries| DB
+    User ==>|HTTP/HTTPS<br/>Server-Side Rendered HTML| WebApp
+
+    classDef sensorBox fill:#E1F5FE,stroke:#0288D1,stroke-width:3px,color:#000000
+    classDef infraBox fill:#F3E5F5,stroke:#7B1FA2,stroke-width:3px,color:#000000
+    classDef userBox fill:#E8F5E8,stroke:#388E3C,stroke-width:3px,color:#000000
+
+    class S1,S2,SN sensorBox
+    class Broker,WebApp,DB infraBox
+    class User userBox
