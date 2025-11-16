@@ -115,8 +115,22 @@ Output: `dist/proposal.pdf`
 ### Core Source Files
 
 #### `src/proposal.md`
-Main proposal content in Markdown format. Contains:
-- Cover page metadata (title, author, client, date)
+Main proposal content in Markdown format with YAML front matter for metadata.
+
+**YAML Front Matter (lines 1-9):**
+```yaml
+---
+title: "Your Proposal Title"
+author:
+  name: "Your Name / Company"
+  affiliation: "Your Title"
+client: "[Client Name]"
+date: "YYYY-MM-DD"
+website: "https://yourwebsite.com/"
+---
+```
+
+**Content Sections:**
 - Project description and scope
 - Architecture diagram reference
 - Feature list
@@ -125,7 +139,10 @@ Main proposal content in Markdown format. Contains:
 - Task breakdown and pricing
 - Contact information
 
-**Customization:** Edit this file for your proposal content.
+**Customization:**
+- **Edit YAML front matter** for all metadata (title, author, client, date)
+- **Edit markdown sections** for proposal content
+- **All metadata in one place** - no need to edit build scripts!
 
 #### `src/template.tex`
 Custom LaTeX template that defines the PDF styling:
@@ -186,10 +203,10 @@ NPM scripts for build automation:
 - `generate:diagram` - Create diagram PNG with mmdc
 - `generate:screenshots` - Capture UI mockups
 - `build:assets` - Run both diagram and screenshot generation
-- `build:pdf` - Generate PDF in Docker container
+- `build:pdf` - Generate PDF in Docker container (reads metadata from proposal.md)
 - `build` - Complete build pipeline
 
-**Customization:** Update metadata fields in `build:pdf` script.
+**Note:** Metadata (title, author, client, date) is configured in `src/proposal.md` YAML front matter, not here.
 
 ---
 
@@ -221,16 +238,20 @@ NPM scripts for build automation:
 
 Edit `src/proposal.md`:
 
-**Metadata (top of file):**
-```markdown
-| | |
-| :--- | :--- |
-| **Tanggal** | 16 November 2025 |
-| **Untuk** | [Client Name] |
-| **Dari** | [Your Company] |
+**YAML Front Matter (lines 1-9):**
+```yaml
+---
+title: "YOUR PROPOSAL TITLE"
+author:
+  name: "Your Name / Company"
+  affiliation: "Your Title"
+client: "[Client Name]"
+date: "2025-11-16"
+website: "https://yourwebsite.com/"
+---
 ```
 
-**Sections:**
+**Content Sections (after line 10):**
 - Section 1: Project description
 - Section 2: Architecture diagram
 - Section 3: Feature list
@@ -262,21 +283,7 @@ graph TD
 - Use `&nbsp;` padding in subgraph labels if needed
 - Test with `npm run generate:diagram` to verify labels
 
-### 4. Update Build Script
-
-Edit `package.json` → `build:pdf` script:
-
-**Change metadata:**
-```bash
--M title="YOUR PROPOSAL TITLE" \
--M author.name="Your Name / Company" \
--M author.affiliation="Your Title" \
--M client="[Client Name]" \
--M date="$(date +%Y-%m-%d)" \
--M website="https://yourwebsite.com/"
-```
-
-### 5. Generate UI Mockups
+### 4. Generate UI Mockups
 
 **Option A: Use screenshots**
 1. Create mockups (Figma, HTML, etc.)
@@ -344,11 +351,12 @@ podman run --rm \
   --template=/src/template.tex \          # Custom LaTeX template
   --resource-path=/dist \                 # Where to find images
   --pdf-engine=xelatex \                  # PDF rendering engine
-  -M title="..." \                        # Metadata variables
   --toc \                                 # Generate table of contents
   -o /dist/proposal.pdf \                 # Output file
-  /src/proposal.md                        # Input Markdown
+  /src/proposal.md                        # Input Markdown (with YAML metadata)
 ```
+
+**Note:** Metadata (title, author, client, date) is read from YAML front matter in `proposal.md`, not command-line flags.
 
 ---
 
@@ -546,15 +554,14 @@ To create a new proposal using this system:
    - Update fonts if needed (lines with `\setmainfont`)
 
 3. **Update content**
-   - Edit `src/proposal.md` - replace all proposal text
-   - Update metadata table (date, client name, author)
+   - Edit `src/proposal.md` YAML front matter (title, author, client, date)
+   - Replace all proposal text and sections
    - Replace architecture diagram in `src/diagram.mmd`
    - Update or remove UI mockups in `src/assets/`
 
-4. **Update build configuration**
-   - Edit `package.json` → `build:pdf` script
-   - Change `-M title`, `-M author.name`, `-M client`, `-M website`
-   - Update `package.json` name and description
+4. **Update package metadata** (optional)
+   - Edit `package.json` → name and description fields
+   - No need to change build scripts - metadata is in `proposal.md`
 
 5. **Build and test**
    ```bash
@@ -578,7 +585,7 @@ To create a new proposal using this system:
 | **Proposal Text** | `src/proposal.md` | All sections, replace content |
 | **Architecture** | `src/diagram.mmd` | System architecture diagram |
 | **UI Mockups** | `src/assets/mockup_*.png` | Replace with new screenshots |
-| **Metadata** | `package.json` build:pdf | Title, author, client, date, website |
+| **Metadata** | `src/proposal.md` YAML front matter | Title, author, client, date, website |
 | **Cover Design** | `src/template.tex` | Cover page layout (lines ~580-650) |
 
 ### Content Structure Template
@@ -662,7 +669,7 @@ Recommended proposal sections (adapt as needed):
     "generate:diagram": "npx mmdc -i src/diagram.mmd -o dist/assets/diagram.png -c src/mermaid-config.json -C src/diagram.css -b transparent -s 3 -w 2400 -H 2000 && npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg -c src/mermaid-config.json -C src/diagram.css",
     "generate:screenshots": "node scripts/capture_screens.js",
     "build:assets": "npm run generate:diagram && npm run generate:screenshots",
-    "build:pdf": "podman run --rm --volume \"$(pwd)/src:/src\" --volume \"$(pwd)/dist:/dist\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex --template=/src/template.tex --resource-path=/dist --pdf-engine=xelatex -M title=\"PROPOSAL PENGEMBANGAN APLIKASI MONITORING SENSOR AIR BERBASIS WEB\" -M author.name=\"Endy Muhardin / ArtiVisi Intermedia\" -M author.affiliation=\"IT Consultant\" -M client=\"[Nama Klien/Perusahaan Anda]\" -M date=\"16 November 2025\" -M website=\"https://artivisi.com/\" --toc -o /dist/proposal.pdf /src/proposal.md",
+    "build:pdf": "podman run --rm --volume \"$(pwd)/src:/src\" --volume \"$(pwd)/dist:/dist\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex --template=/src/template.tex --resource-path=/dist --pdf-engine=xelatex --toc -o /dist/proposal.pdf /src/proposal.md",
     "build": "npm run clean && npm run prepare && npm run build:assets && npm run build:pdf"
   }
 }

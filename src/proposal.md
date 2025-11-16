@@ -1,11 +1,11 @@
-# **PROPOSAL PENGEMBANGAN APLIKASI MONITORING SENSOR AIR BERBASIS WEB**
-
-| | |
-| :--- | :--- |
-| **Tanggal** | 16 November 2025 |
-| **Untuk** | [Nama Klien/Perusahaan Anda] |
-| **Dari** | [Nama Anda/Perusahaan Anda] |
-
+---
+title: "Proposal Pengembangan Aplikasi Monitoring Sensor Air Berbasis Web"
+author:
+  name: "Endy Muhardin / ArtiVisi Intermedia"
+  affiliation: "IT Consultant"
+client: "[Nama Klien/Perusahaan Anda]"
+date: "16 November 2025"
+website: "https://artivisi.com/"
 ---
 
 ## **1. Deskripsi Aplikasi**
