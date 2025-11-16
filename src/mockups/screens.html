@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Screens Mockup</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --border-color: #dee2e6;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #212529;
+            --text-muted: #6c757d;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --status-healthy: #28a745;
+            --status-lowbatt: #ffc107;
+            --status-inactive: #6c757d;
+            --status-disconnected: #dc3545;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+        }
+        .page-section {
+            padding: 24px;
+        }
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .kpi-card {
+            padding: 16px;
+            text-align: center;
+        }
+        .kpi-card .title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .kpi-card .value {
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+        .filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .filters-bar .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .filters-bar label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--text-muted);
+        }
+        .filters-bar select, .filters-bar input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+        }
+        .filters-bar button, .btn-primary {
+            padding: 10px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .filters-bar button {
+            align-self: flex-end;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .chart-container {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 8px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        th {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .status-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .status-label .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .status-healthy { background-color: #e9f7ec; color: #207c44; }
+        .status-healthy .dot { background-color: var(--status-healthy); }
+        .status-lowbatt { background-color: #fff8e6; color: #b38600; }
+        .status-lowbatt .dot { background-color: var(--status-lowbatt); }
+        .status-inactive { background-color: #f1f3f5; color: #495057; }
+        .status-inactive .dot { background-color: var(--status-inactive); }
+        .status-disconnected { background-color: #fdeeee; color: #c9302c; }
+        .status-disconnected .dot { background-color: var(--status-disconnected); }
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            margin: 0 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="dashboard-screen" class="page-section">
+    <h1>Dashboard Pemantauan</h1>
+    <div class="card kpi-grid">
+        <div class="kpi-card"><div class="title">WATER LEVEL</div><div class="value">152 <span style="font-size: 1rem; color: var(--text-muted);">cm</span></div></div>
+        <div class="kpi-card"><div class="title">pH LEVEL</div><div class="value">7.1</div></div>
+        <div class="kpi-card"><div class="title">TURBIDITY</div><div class="value">25.8 <span style="font-size: 1rem; color: var(--text-muted);">NTU</span></div></div>
+        <div class="kpi-card"><div class="title">ALERTS TODAY</div><div class="value">3</div></div>
+    </div>
+    <div class="card">
+        <div class="filters-bar">
+            <div class="filter-group"><label for="device">Device</label><select id="device"><option>Sensor Air Utama</option></select></div>
+            <div class="filter-group"><label for="date-range">Date Range</label><input type="text" id="date-range" value="2025/11/01 - 2025/11/16"></div>
+            <div class="filter-group"><label for="interval">Interval</label><select id="interval"><option>Hourly</option><option>Daily</option></select></div>
+            <button>Render Data</button>
+        </div>
+    </div>
+    <div class="card">
+        <h2>Sensor Reading Trends</h2>
+        <div class="chart-container">
+            <svg width="100%" height="300" preserveAspectRatio="none">
+                <rect x="0" y="0" width="100%" height="180" fill="#28a745" fill-opacity="0.1" /><rect x="0" y="180" width="100%" height="60" fill="#ffc107" fill-opacity="0.1" /><rect x="0" y="240" width="100%" height="60" fill="#dc3545" fill-opacity="0.1" />
+                <text x="10" y="170" fill="#28a745" font-size="12">Normal</text><text x="10" y="230" fill="#ffc107" font-size="12">Warning</text><text x="10" y="290" fill="#dc3545" font-size="12">Critical</text>
+                <polyline fill="none" stroke="#0d6efd" stroke-width="2" points="50,150 150,120 250,140 350,100 450,110 550,190 650,250"/><polyline fill="none" stroke="#6c757d" stroke-width="2" points="50,200 150,190 250,180 350,170 450,180 550,200 650,210"/>
+                <circle cx="550" cy="190" r="5" fill="#ffc107" stroke="white" stroke-width="2"/><circle cx="650" cy="250" r="5" fill="#dc3545" stroke="white" stroke-width="2"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<div id="sensor-list-screen" class="page-section">
+    <h1>Daftar Sensor & Status</h1>
+    <div class="card">
+        <table>
+            <thead><tr><th>NAMA SENSOR</th><th>ID</th><th>LOKASI</th><th>STATUS</th><th>DATA TERAKHIR</th></tr></thead>
+            <tbody>
+                <tr><td>Sensor Air Utama</td><td>Sensor_001</td><td>Pintu Air 1</td><td><span class="status-label status-healthy"><span class="dot"></span>Healthy</span></td><td>16/11/2025 10:05</td></tr>
+                <tr><td>Sensor Cadangan</td><td>Sensor_002</td><td>Pintu Air 1</td><td><span class="status-label status-inactive"><span class="dot"></span>Inactive</span></td><td>15/11/2025 18:30</td></tr>
+                <tr><td>Sensor Pompa</td><td>Sensor_003</td><td>Rumah Pompa</td><td><span class="status-label status-lowbatt"><span class="dot"></span>Low Battery</span></td><td>16/11/2025 10:01</td></tr>
+                <tr><td>Sensor Waduk</td><td>Sensor_004</td><td>Waduk Utama</td><td><span class="status-label status-disconnected"><span class="dot"></span>Disconnected</span></td><td>16/11/2025 07:15</td></tr>
+                <tr><td>Sensor Sungai</td><td>Sensor_005</td><td>Hulu Sungai</td><td><span class="status-label status-healthy"><span class="dot"></span>Healthy</span></td><td>16/11/2025 10:04</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="sensor-health-screen" class="page-section">
+    <h1>Pemantauan Kondisi Sensor</h1>
+    <div class="card">
+        <div class="filters-bar">
+            <div class="filter-group"><label for="device-health">Device</label><select id="device-health"><option>Sensor Pompa (Sensor_003)</option></select></div>
+            <div class="filter-group"><label for="date-range-health">Date Range</label><input type="text" id="date-range-health" value="2025/11/09 - 2025/11/16"></div>
+            <button>Render</button>
+        </div>
+    </div>
+    <div class="card">
+        <h2>Tingkat Baterai (7 Hari Terakhir)</h2>
+        <div class="chart-container">
+            <svg width="100%" height="300" preserveAspectRatio="none">
+                <rect x="0" y="0" width="100%" height="50" fill="#cce5ff" fill-opacity="0.2" /><text x="10" y="40" fill="#004085" font-size="12">Charging</text>
+                <rect x="0" y="50" width="100%" height="150" fill="#e9f7ec" fill-opacity="0.3" /><text x="10" y="125" fill="#207c44" font-size="12">Full</text>
+                <rect x="0" y="200" width="100%" height="50" fill="#fff8e6" fill-opacity="0.3" /><text x="10" y="240" fill="#b38600" font-size="12">Nominal</text>
+                <rect x="0" y="250" width="100%" height="50" fill="#fdeeee" fill-opacity="0.3" /><text x="10" y="290" fill="#c9302c" font-size="12">Low</text>
+                <polyline fill="none" stroke="maroon" stroke-width="2" points="50,260 100,220 150,230 200,180 250,150 300,80 350,40 400,90 450,160 500,230 550,265 600,240 650,210"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<div id="sensor-management-screen" class="page-section">
+    <h1>Manajemen Sensor</h1>
+    <div class="card">
+        <div class="card-header">
+            <h2>Daftar Perangkat Terdaftar</h2>
+            <a href="#" class="btn-primary">Tambah Sensor Baru</a>
+        </div>
+        <table>
+            <thead><tr><th>NAMA SENSOR</th><th>ID</th><th>LOKASI</th><th>TANGGAL DITAMBAHKAN</th><th>AKSI</th></tr></thead>
+            <tbody>
+                <tr><td>Sensor Air Utama</td><td>Sensor_001</td><td>Pintu Air 1</td><td>20/10/2025</td><td><button class="action-btn">✏️</button><button class="action-btn">🗑️</button></td></tr>
+                <tr><td>Sensor Cadangan</td><td>Sensor_002</td><td>Pintu Air 1</td><td>20/10/2025</td><td><button class="action-btn">✏️</button><button class="action-btn">🗑️</button></td></tr>
+                <tr><td>Sensor Pompa</td><td>Sensor_003</td><td>Rumah Pompa</td><td>22/10/2025</td><td><button class="action-btn">✏️</button><button class="action-btn">🗑️</button></td></tr>
+                <tr><td>Sensor Waduk</td><td>Sensor_004</td><td>Waduk Utama</td><td>25/10/2025</td><td><button class="action-btn">✏️</button><button class="action-btn">🗑️</button></td></tr>
+                <tr><td>Sensor Sungai</td><td>Sensor_005</td><td>Hulu Sungai</td><td>28/10/2025</td><td><button class="action-btn">✏️</button><button class="action-btn">🗑️</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

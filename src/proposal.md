@@ -18,49 +18,37 @@ Data dari setiap unit sensor akan dikirimkan melalui protokol MQTT ke sebuah *MQ
 
 Diagram berikut mengilustrasikan alur data dari sensor hingga ke pengguna akhir.
 
-```mermaid
-graph TD
-    subgraph "Lokasi Sensor"
-        S1[Sensor Air 1];
-        S2[Sensor Air 2];
-        SN[Sensor Air ...];
-    end
-
-    subgraph "Infrastruktur Cloud (VPS)"
-        Broker(MQTT Broker - Mosquitto);
-        WebApp(Aplikasi Web - Spring Boot);
-        DB[(Database)];
-    end
-
-    subgraph "Pengguna"
-        User[User via Browser];
-    end
-
-    S1 -- Data via MQTT --> Broker;
-    S2 -- Data via MQTT --> Broker;
-    SN -- Data via MQTT --> Broker;
-
-    Broker -- Langganan Topic --> WebApp;
-    WebApp -- Simpan & Ambil Data --> DB;
-    User -- Akses Laporan --> WebApp;
-
-```
+![Diagram Arsitektur](assets/diagram.svg)
 
 #### **3. Daftar Fitur**
 
 Aplikasi akan memiliki fitur-fitur utama sebagai berikut:
-1.  **Penerimaan Data MQTT**: Kemampuan untuk terhubung ke MQTT broker dan menerima data dari topik (topic) yang telah ditentukan.
-2.  **Penyimpanan Data**: Menyimpan data sensor (misalnya: level air, pH, suhu, timestamp) ke dalam database.
-3.  **Dashboard Real-time**: Menampilkan data terakhir yang diterima dari sensor-sensor aktif (opsional, di luar scope utama).
-4.  **Tampilan Laporan**: Menampilkan data historis dalam bentuk tabel yang dapat difilter berdasarkan rentang tanggal dan ID sensor.
-5.  **Visualisasi Data**: Menampilkan grafik tren dari data sensor untuk mempermudah analisis.
-6.  **Manajemen Sensor**: Fitur dasar untuk mendaftarkan atau menonaktifkan sensor baru (opsional, di luar scope utama).
+1.  **Dashboard Pemantauan**: Halaman utama yang menampilkan ringkasan status semua sensor (KPI), tren data terkini, dan notifikasi penting secara visual.
+2.  **Laporan & Grafik Historis**: Kemampuan untuk melihat data historis dalam bentuk grafik dan tabel dengan filter lanjutan (perangkat, rentang tanggal, interval).
+3.  **Daftar Sensor & Status**: Menampilkan daftar semua sensor yang terhubung beserta status operasionalnya secara real-time (Healthy, Low Battery, Disconnected, dll.).
+4.  **Pemantauan Kondisi Sensor**: Halaman khusus untuk memantau metrik internal sensor, seperti tingkat daya baterai dan kekuatan sinyal.
+5.  **Manajemen Sensor**: Antarmuka untuk menambah, mengedit, dan menghapus data sensor dari sistem.
+6.  **Penerimaan Data MQTT**: Kemampuan untuk terhubung ke MQTT broker dan menerima data dari semua sensor.
 
-#### **4. UI Mockup (Tampilan Laporan)**
+#### **4. UI Mockup**
 
-Berikut adalah mockup untuk halaman laporan data sensor.
+Berikut adalah beberapa mockup yang mengilustrasikan fitur-fitur utama aplikasi.
 
-![UI Mockup](assets/mockup.png)
+##### **4.1. Dashboard Pemantauan**
+Halaman utama untuk melihat ringkasan data dan tren secara cepat.
+![Dashboard Pemantauan](assets/mockup_dashboard.png)
+
+##### **4.2. Daftar Sensor & Status**
+Layar untuk melihat status operasional semua sensor dalam satu tabel.
+![Daftar Sensor & Status](assets/mockup_sensor_list.png)
+
+##### **4.3. Pemantauan Kondisi Sensor**
+Layar untuk menganalisa metrik internal sensor seperti tingkat baterai.
+![Pemantauan Kondisi Sensor](assets/mockup_sensor_health.png)
+
+##### **4.4. Manajemen Sensor**
+Antarmuka untuk mengelola (menambah, edit, hapus) perangkat sensor.
+![Manajemen Sensor](assets/mockup_sensor_management.png)
 
 #### **5. Lingkup Pekerjaan**
 

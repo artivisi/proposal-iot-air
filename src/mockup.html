@@ -3,65 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI Mockup</title>
+    <title>Dashboard Mockup</title>
     <style>
+        :root {
+            --primary-color: #007bff;
+            --border-color: #dee2e6;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #212529;
+            --text-muted: #6c757d;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #212529;
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
-        .window {
-            width: 800px;
-            border: 1px solid #dee2e6;
+        .dashboard {
+            padding: 24px;
+        }
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            background-color: #fff;
-            overflow: hidden;
-        }
-        .header {
-            background-color: #f1f3f5;
-            padding: 12px 20px;
-            border-bottom: 1px solid #dee2e6;
-            font-weight: 600;
-            color: #495057;
-        }
-        .main {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
             padding: 20px;
         }
-        h2 {
-            margin-top: 0;
-            font-size: 1.5rem;
-            border-bottom: 1px solid #e9ecef;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
-        .filters {
+        .kpi-card {
+            padding: 16px;
+            text-align: center;
+        }
+        .kpi-card .title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .kpi-card .value {
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+        .filters-bar {
             display: flex;
-            gap: 15px;
+            flex-wrap: wrap;
+            gap: 16px;
             align-items: center;
-            margin-bottom: 25px;
         }
-        .filters label {
+        .filters-bar .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .filters-bar label {
+            font-size: 0.8rem;
             font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--text-muted);
         }
-        .filters select, .filters input {
+        .filters-bar select, .filters-bar input {
             padding: 8px 12px;
-            border: 1px solid #ced4da;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
         }
-        .filters button {
-            padding: 8px 20px;
-            background-color: #007bff;
+        .filters-bar button {
+            padding: 10px 24px;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            align-self: flex-end;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .chart-container {
+            width: 100%;
+            box-sizing: border-box;
         }
         table {
             width: 100%;
@@ -69,60 +96,102 @@
             margin-top: 20px;
         }
         th, td {
-            border: 1px solid #dee2e6;
-            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 8px;
             text-align: left;
+            font-size: 0.9rem;
         }
         th {
-            background-color: #f8f9fa;
+            color: var(--text-muted);
+            font-weight: 500;
         }
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-normal { background-color: #28a745; }
+        .status-warning { background-color: #ffc107; }
+        .status-critical { background-color: #dc3545; }
     </style>
 </head>
 <body>
-    <div class="window">
-        <div class="header">Aplikasi Monitoring Sensor Air</div>
-        <div class="main">
-            <h2>Laporan Data Sensor</h2>
-            <div class="filters">
-                <label for="sensor-id">Sensor ID:</label>
-                <select id="sensor-id"><option>All</option><option>SENSOR_JMB_01</option></select>
-                <label for="start-date">Tanggal Mulai:</label>
-                <input type="text" id="start-date" value="15/11/2025">
-                <label for="end-date">Akhir:</label>
-                <input type="text" id="end-date" value="16/11/2025">
-                <button>Terapkan</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Timestamp</th>
-                        <th>Sensor ID</th>
-                        <th>Parameter</th>
-                        <th>Nilai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2025-11-16 10:05:12</td>
-                        <td>SENSOR_JMB_01</td>
-                        <td>pH</td>
-                        <td>7.1</td>
-                    </tr>
-                    <tr>
-                        <td>2025-11-16 10:05:10</td>
-                        <td>SENSOR_BDG_05</td>
-                        <td>Level (cm)</td>
-                        <td>152</td>
-                    </tr>
-                    <tr>
-                        <td>2025-11-16 10:04:55</td>
-                        <td>SENSOR_JMB_01</td>
-                        <td>pH</td>
-                        <td>7.2</td>
-                    </tr>
-                </tbody>
-            </table>
+<div class="dashboard">
+    <div class="card kpi-grid">
+        <div class="kpi-card">
+            <div class="title">WATER LEVEL</div>
+            <div class="value">152 <span style="font-size: 1rem; color: var(--text-muted);">cm</span></div>
+        </div>
+        <div class="kpi-card">
+            <div class="title">pH LEVEL</div>
+            <div class="value">7.1</div>
+        </div>
+        <div class="kpi-card">
+            <div class="title">TURBIDITY</div>
+            <div class="value">25.8 <span style="font-size: 1rem; color: var(--text-muted);">NTU</span></div>
+        </div>
+        <div class="kpi-card">
+            <div class="title">ALERTS TODAY</div>
+            <div class="value">3</div>
         </div>
     </div>
+
+    <div class="card">
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label for="device">Device</label>
+                <select id="device"><option>Sensor Air Utama</option></select>
+            </div>
+            <div class="filter-group">
+                <label for="date-range">Date Range</label>
+                <input type="text" id="date-range" value="2025/11/01 - 2025/11/16">
+            </div>
+            <div class="filter-group">
+                <label for="interval">Interval</label>
+                <select id="interval"><option>Hourly</option><option>Daily</option></select>
+            </div>
+            <button>Render Data</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Sensor Reading Trends</h2>
+        <div class="chart-container">
+            <svg width="100%" height="300" preserveAspectRatio="none">
+                <!-- Zona Status -->
+                <rect x="0" y="0" width="100%" height="180" fill="#28a745" fill-opacity="0.1" />
+                <rect x="0" y="180" width="100%" height="60" fill="#ffc107" fill-opacity="0.1" />
+                <rect x="0" y="240" width="100%" height="60" fill="#dc3545" fill-opacity="0.1" />
+                <text x="10" y="170" fill="#28a745" font-size="12">Normal</text>
+                <text x="10" y="230" fill="#ffc107" font-size="12">Warning</text>
+                <text x="10" y="290" fill="#dc3545" font-size="12">Critical</text>
+
+                <!-- Garis Grafik -->
+                <polyline fill="none" stroke="#0d6efd" stroke-width="2" points="50,150 150,120 250,140 350,100 450,110 550,190 650,250"/>
+                <polyline fill="none" stroke="#6c757d" stroke-width="2" points="50,200 150,190 250,180 350,170 450,180 550,200 650,210"/>
+
+                <!-- Titik Data -->
+                <circle cx="550" cy="190" r="5" fill="#ffc107" stroke="white" stroke-width="2"/>
+                <circle cx="650" cy="250" r="5" fill="#dc3545" stroke="white" stroke-width="2"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Recent Alerts</h2>
+        <table>
+            <thead>
+                <tr><th>Status</th><th>Timestamp</th><th>Device</th><th>Parameter</th><th>Value</th><th>Message</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="status-dot status-critical"></span>Critical</td><td>16/11/2025 09:30</td><td>Sensor_001</td><td>Water Level</td><td>255 cm</td><td>Level exceeds critical threshold</td></tr>
+                <tr><td><span class="status-dot status-warning"></span>Warning</td><td>16/11/2025 08:45</td><td>Sensor_001</td><td>pH</td><td>8.5</td><td>pH level is high</td></tr>
+                <tr><td><span class="status-dot status-normal"></span>Normal</td><td>16/11/2025 08:00</td><td>Sensor_001</td><td>Water Level</td><td>150 cm</td><td>Level back to normal</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

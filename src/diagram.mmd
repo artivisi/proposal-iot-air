@@ -1,0 +1,24 @@
+graph TD
+    subgraph "Lokasi Sensor"
+        S1[Sensor Air 1];
+        S2[Sensor Air 2];
+        SN[Sensor Air ...];
+    end
+
+    subgraph "Infrastruktur Cloud (VPS)"
+        Broker(MQTT Broker - Mosquitto);
+        WebApp(Aplikasi Web - Spring Boot);
+        DB[(Database)];
+    end
+
+    subgraph "Pengguna"
+        User[User via Browser];
+    end
+
+    S1 -- Data via MQTT --> Broker;
+    S2 -- Data via MQTT --> Broker;
+    SN -- Data via MQTT --> Broker;
+
+    Broker -- Langganan Topic --> WebApp;
+    WebApp -- Simpan & Ambil Data --> DB;
+    User -- Akses Laporan --> WebApp;
