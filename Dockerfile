@@ -6,17 +6,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update, install pandoc, texlive-xetex (untuk XeLaTeX), dan paket pendukungnya.
 # --no-install-recommends digunakan agar ukuran image tidak terlalu besar.
+# Optimized: Removed inkscape, fonts-noto-core, texlive-fonts-extra, lmodern
+# (diagram generated with mmdc/Playwright locally, template only uses Lato font)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     pandoc \
     texlive-xetex \
     texlive-latex-recommended \
     texlive-fonts-recommended \
-    texlive-fonts-extra \
-    lmodern \
     librsvg2-bin \
-    inkscape \
-    fonts-noto-core \
     fonts-lato && \
     # Bersihkan cache apt untuk mengurangi ukuran image
     rm -rf /var/lib/apt/lists/*
