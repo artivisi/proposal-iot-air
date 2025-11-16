@@ -2,78 +2,79 @@
 
 Repositori ini berisi semua file sumber dan skrip yang diperlukan untuk menghasilkan dokumen proposal "Aplikasi Monitoring Sensor Air".
 
+## Alur Kerja
+
+Prosesnya sekarang terdiri dari dua tahap utama:
+1.  **Build Image Docker (Sekali Saja):** Anda membuat image Docker kustom yang berisi Pandoc dan LaTeX. Ini hanya perlu dilakukan sekali, atau setiap kali `Dockerfile` diubah.
+2.  **Build Dokumen:** Anda menjalankan serangkaian perintah untuk mengubah file sumber di `src/` menjadi proposal PDF final di `dist/`.
+
 ## Struktur Proyek
 
 ```
 .
 ├── src/                      # Folder untuk semua file SUMBER
+│   ├── assets/
 │   ├── proposal.md
 │   ├── diagram.mmd
 │   └── mockups/
-│       └── screens.html
 ├── scripts/                  # Folder untuk skrip generator
-│   └── capture_screens.js
-├── dist/                     # Folder untuk semua HASIL GENERATE (diabaikan oleh git)
-│   ├── assets/
-│   │   ├── diagram.svg
-│   │   └── *.png
-│   └── proposal.pdf
+├── dist/                     # Folder untuk semua HASIL GENERATE
+├── Dockerfile                # (Baru) Resep untuk membuat image Docker kustom Anda
 ├── .gitignore
 ├── package.json
 └── README.md
 ```
 
-- **`src/`**: Berisi file-file yang Anda edit: proposal dalam Markdown, diagram dalam format Mermaid, dan mockup dalam HTML.
-- **`scripts/`**: Berisi skrip Node.js untuk mengambil screenshot dari mockup HTML.
-- **`dist/`**: Berisi semua hasil akhir. Folder ini bisa dihapus dengan aman dan akan dibuat ulang saat proses build dijalankan.
+---
 
-## Instruksi untuk Menghasilkan PDF Proposal
+## Instruksi Lengkap
 
-Ikuti langkah-langkah berikut untuk mengubah semua file sumber di `src/` menjadi proposal `proposal.pdf` di dalam folder `dist/`.
+### Langkah 1: Build Image Docker Kustom (Hanya Sekali)
 
-### Langkah 1: Instal Dependensi
+Buka terminal Anda di root proyek dan jalankan perintah berikut. Perintah ini akan membuat image Docker lokal dari `Dockerfile` dan memberinya nama `endymuhardin/pandoc-latex` agar mudah digunakan.
 
-Jika ini pertama kalinya, inisialisasi proyek dan instal semua dependensi yang diperlukan (Playwright untuk screenshot dan Mermaid CLI untuk diagram).
+```bash
+docker build -t endymuhardin/pandoc-latex .
+```
+Proses ini mungkin memakan waktu beberapa menit saat pertama kali dijalankan.
+
+### Langkah 2: Instal Dependensi Node.js
+
+Jika ini pertama kalinya, inisialisasi proyek dan instal semua dependensi yang diperlukan.
 
 ```bash
 npm init -y
 npm install playwright @mermaid-js/mermaid-cli
 ```
 
-### Langkah 2: Hasilkan Aset (Diagram & Screenshot)
+### Langkah 3: Build Dokumen Proposal
 
-Jalankan perintah berikut untuk mengubah file sumber menjadi aset gambar di dalam folder `dist/assets/`.
+Setelah image Docker siap dan dependensi terinstal, Anda bisa menjalankan proses build kapan saja.
 
-**a. Hasilkan Diagram Arsitektur:**
-
+**a. Siapkan Folder Build dan Salin Aset:**
 ```bash
-npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg
+mkdir -p dist/assets
+cp -r src/assets/. dist/assets/
 ```
 
-**b. Hasilkan Screenshot Mockup:**
-
+**b. Hasilkan Aset Dinamis (Diagram & Screenshot):**
 ```bash
+npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg
 node scripts/capture_screens.js
 ```
 
-### Langkah 3: Hasilkan Dokumen PDF
-
-Setelah semua aset gambar berada di `dist/assets/`, jalankan perintah Docker berikut untuk mengonversi `src/proposal.md` menjadi `dist/proposal.pdf`.
-
-Perintah ini secara cerdas menggunakan `src` sebagai folder sumber dan `dist/assets` sebagai lokasi resource gambar, lalu menyimpan outputnya di `dist`.
-
+**c. Hasilkan Dokumen PDF menggunakan Image Lokal Anda:**
 ```bash
 docker run --rm \
   --volume "$(pwd)/src:/data" \
   --volume "$(pwd)/dist/assets:/data/assets" \
   --user $(id -u):$(id -g) \
-  pandoc/latex proposal.md \
+  endymuhardin/pandoc-latex proposal.md \
   -o /data/../dist/proposal.pdf \
   --from markdown \
   --pdf-engine=xelatex \
   -V geometry:"margin=1in"
 ```
-*Catatan: Perintah di atas mungkin perlu sedikit penyesuaian di Windows (terkait `$(pwd)` dan `$(id -u):$(id -g)`).*
 
 ---
 
@@ -83,15 +84,17 @@ Untuk mempermudah, tambahkan skrip berikut ke `package.json` Anda:
 
 ```json
 "scripts": {
+  "docker:build": "docker build -t endymuhardin/pandoc-latex .",
   "clean": "rm -rf dist",
-  "prepare": "mkdir -p dist/assets",
+  "prepare": "mkdir -p dist/assets && cp -r src/assets/. dist/assets/",
   "generate:diagram": "npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg",
   "generate:screenshots": "node scripts/capture_screens.js",
   "build:assets": "npm run generate:diagram && npm run generate:screenshots",
-  "build:pdf": "docker run --rm --volume \"$(pwd)/src:/data\" --volume \"$(pwd)/dist/assets:/data/assets\" --user $(id -u):$(id -g) pandoc/latex proposal.md -o /data/../dist/proposal.pdf --from markdown --pdf-engine=xelatex -V geometry:\"margin=1in\"",
+  "build:pdf": "docker run --rm --volume \"$(pwd)/src:/data\" --volume \"$(pwd)/dist/assets:/data/assets\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex proposal.md -o /data/../dist/proposal.pdf --from markdown --pdf-engine=xelatex -V geometry:\"margin=1in\"",
   "build": "npm run clean && npm run prepare && npm run build:assets && npm run build:pdf"
 }
 ```
 
-Setelah itu, Anda cukup menjalankan satu perintah untuk membangun semuanya dari awal:
-**`npm run build`**
+**Alur Kerja dengan NPM Scripts:**
+1.  Jalankan `npm run docker:build` (hanya sekali).
+2.  Setiap kali ingin membuat PDF, jalankan: `npm run build`.

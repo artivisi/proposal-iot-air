@@ -1,3 +1,5 @@
+[![Artivisi Logo](assets/logo-artivisi.svg){width=200px}](https://artivisi.com/)
+
 ### **PROPOSAL PENGEMBANGAN APLIKASI MONITORING SENSOR AIR BERBASIS WEB**
 
 | | |
@@ -113,3 +115,14 @@ Berikut adalah estimasi total biaya untuk proyek ini.
 | **Total Estimasi Biaya Tahun Pertama** | | **Rp 27.955.000,-** |
 
 *Catatan: Harga domain dan VPS bersifat estimasi dan dapat berubah sesuai kebijakan penyedia layanan.*
+
+---
+
+#### **9. Informasi Kontak**
+
+Untuk diskusi lebih lanjut mengenai proposal ini, silakan hubungi:
+
+- **Nama**: Endy Muhardin
+- **Email**: endy@artivisi.com
+- **Telepon**: +62 812 98000 468
+- **Website**: https://artivisi.com
