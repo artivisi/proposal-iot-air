@@ -29,3 +29,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Cache directories
+src/.cache/

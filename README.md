@@ -66,14 +66,15 @@ node scripts/capture_screens.js
 **c. Hasilkan Dokumen PDF menggunakan Image Lokal Anda:**
 ```bash
 docker run --rm \
-  --volume "$(pwd)/src:/data" \
-  --volume "$(pwd)/dist/assets:/data/assets" \
+  --volume "$(pwd)/src:/src" \
+  --volume "$(pwd)/dist:/dist" \
   --user $(id -u):$(id -g) \
-  endymuhardin/pandoc-latex proposal.md \
-  -o /data/../dist/proposal.pdf \
+  endymuhardin/pandoc-latex /src/proposal.md \
+  -o /dist/proposal.pdf \
   --from markdown \
   --pdf-engine=xelatex \
-  -V geometry:"margin=1in"
+  -V geometry:"margin=1in" \
+  --resource-path=/dist
 ```
 
 ---
@@ -90,7 +91,7 @@ Untuk mempermudah, tambahkan skrip berikut ke `package.json` Anda:
   "generate:diagram": "npx mmdc -i src/diagram.mmd -o dist/assets/diagram.svg",
   "generate:screenshots": "node scripts/capture_screens.js",
   "build:assets": "npm run generate:diagram && npm run generate:screenshots",
-  "build:pdf": "docker run --rm --volume \"$(pwd)/src:/data\" --volume \"$(pwd)/dist/assets:/data/assets\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex proposal.md -o /data/../dist/proposal.pdf --from markdown --pdf-engine=xelatex -V geometry:\"margin=1in\"",
+  "build:pdf": "docker run --rm --volume \"$(pwd)/src:/src\" --volume \"$(pwd)/dist:/dist\" --user $(id -u):$(id -g) endymuhardin/pandoc-latex /src/proposal.md -o /dist/proposal.pdf --from markdown --pdf-engine=xelatex -V geometry:\"margin=1in\" --resource-path=/dist",
   "build": "npm run clean && npm run prepare && npm run build:assets && npm run build:pdf"
 }
 ```

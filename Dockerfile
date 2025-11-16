@@ -12,7 +12,8 @@ RUN apt-get update && \
     texlive-xetex \
     texlive-latex-recommended \
     texlive-fonts-recommended \
-    lmodern && \
+    lmodern \
+    librsvg2-bin && \
     # Bersihkan cache apt untuk mengurangi ukuran image
     rm -rf /var/lib/apt/lists/*
 
@@ -20,4 +21,4 @@ RUN apt-get update && \
 WORKDIR /data
 
 # Perintah ini bisa diaktifkan jika Anda ingin 'pandoc' menjadi perintah default
-# ENTRYPOINT ["pandoc"]
+ENTRYPOINT ["pandoc"]
